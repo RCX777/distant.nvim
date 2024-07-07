@@ -205,9 +205,13 @@ function M:connect_lsp_clients(opts)
                         end
 
                         local cmd = self:wrap({ lsp = config.cmd, scheme = opts.scheme })
+                        local cmd_args = {}
+                        for arg in cmd:gmatch("%S+") do
+                            table.insert(cmd_args, arg)
+                        end
 
                         config = vim.tbl_deep_extend('force', config, {
-                            cmd = cmd,
+                            cmd = cmd_args,
                             on_exit = on_exit,
                             root_dir = root_dir,
                         })
